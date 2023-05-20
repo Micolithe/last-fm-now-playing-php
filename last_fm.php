@@ -63,7 +63,7 @@
 	//i don't think the wordwrapping works. this is a problem i have yet to solve.
 	//also i can't distrubute arial legally, since it's microsoft's, so find arial.ttf on your windows computer and put it in the same directory as this stuff.
 	imagettftext($img,8,0,90,140,$blacktext,'./arial.ttf',$formatted_date);
-	imagettftext($img,6,0,10,160,$blacktext,'./arial.ttf',$social_media_str."  |  last.fm/".$last_fm_user_id);
+	imagettftext($img,6,0,10,160,$blacktext,'./arial.ttf',$social_media_str."  |  last.fm/user/".$last_fm_user_id);
 	imagepng($img);  //slambo
 	imagedestroy($img); //wangjangle
 ?>
