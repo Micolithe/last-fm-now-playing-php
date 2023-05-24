@@ -1,4 +1,32 @@
 <?php
+
+	function splitlines($input_string, $character_limit){
+		//alright WELL its kinda stupid that i have to do this myself but here we are.
+        $arr_words=explode(' ',$input_string);
+        //echo($input_string);
+        $current_length=0;
+        $line1='';
+        $line2='';
+        foreach($arr_words as $word){
+            $len=strlen($word);
+            $current_length=$current_length+$len;
+            if($current_length<=$character_limit){
+                //echo($word);
+                $line1=$line1.$word.' ';
+                //echo('<br>');
+                //echo($line1);
+            }else{
+                //echo($word);
+                $line2=$line2.$word.' ';
+                //echo('<br>');
+                //echo($line2);
+            }
+        }
+        //echo($line1);
+        //echo('<br>');
+        //echo($line2);
+        return array($line1,'  '.$line2);
+	}
 	//assert_options(ASSERT_ACTIVE, 1);
 	//assert_options(ASSERT_BAIL, 1);
 	//assert_options(ASSERT_QUIET_EVAL, 1);
@@ -57,11 +85,18 @@
 	//$albumimage=imagecreatefromjpeg($art);
 	imagesavealpha($img,true);
 	imagecopymerge($img,$albumimage,16,55,0,0,64,64,100);
-	imagettftext($img,10,0,90,50,$blacktext,'./arial.ttf',wordwrap($artist,50));  //ok the order of imagettftext's args is a little confusing
-	imagettftext($img,10,0,90,80,$blacktext,'./arial.ttf',wordwrap($album,50));  //the order is:
-	imagettftext($img,10,0,90,110,$blacktext,'./arial.ttf',wordwrap($track,50)); //image, font size, rotation angle, x position (from left), y position (from top), text color, true type font, string
-	//i don't think the wordwrapping works. this is a problem i have yet to solve.
+	$arr_artist=splitlines($artist,25);
+	$arr_album=splitlines($album,25);
+	$arr_track=splitlines($track,25);
+
+	imagettftext($img,10,0,90,50,$blacktext,'./arial.ttf',$arr_artist[0]);  //ok the order of imagettftext's args is a little confusing
+	imagettftext($img,10,0,90,65,$blacktext,'./arial.ttf',$arr_artist[1]);  
+	imagettftext($img,10,0,90,80,$blacktext,'./arial.ttf',$arr_album[0]);
+	imagettftext($img,10,0,90,95,$blacktext,'./arial.ttf',$arr_album[1]);	//the order is:
+	imagettftext($img,10,0,90,110,$blacktext,'./arial.ttf',$arr_track[0]);
+	imagettftext($img,10,0,90,125,$blacktext,'./arial.ttf',$arr_track[1]);	//image, font size, rotation angle, x position (from left), y position (from top), text color, true type font, string
 	//also i can't distrubute arial legally, since it's microsoft's, so find arial.ttf on your windows computer and put it in the same directory as this stuff.
+	//you can also use any font your heart desires
 	imagettftext($img,8,0,90,140,$blacktext,'./arial.ttf',$formatted_date);
 	imagettftext($img,6,0,10,160,$blacktext,'./arial.ttf',$social_media_str."  |  last.fm/user/".$last_fm_user_id);
 	imagepng($img);  //slambo
